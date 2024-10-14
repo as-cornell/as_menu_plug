@@ -1,0 +1,140 @@
+<?php
+
+/**
+ * @file
+ * Contains as_menu_plug.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Generates markup around link title().
+ */
+function as_menu_plug_generate_link_markup($link_title, $alias, $link_class)
+{
+  $markup = NULL;
+  //$link_name = preg_replace('/\W+/', '-', strtolower(strip_tags($link_title)));
+  if (!empty($link_title)) {
+  $link_name = as_menu_plug_convert_accents($link_title);
+
+
+  // Create the markup
+  $markup = $markup . "<li class='" . $link_class . "'><a href='" . $alias . "#" . $link_name . "'>" . $link_title . "</a></li>";
+  }
+  return $markup;
+}
+
+function as_menu_plug_convert_accents($link_title)
+{
+  $normalizeChars = array(
+    'Š'=>'S', 'š'=>'s', 'Ð'=>'Dj','Ž'=>'Z', 'ž'=>'z', 'À'=>'A', 'Á'=>'A', 'Â'=>'A', 'Ã'=>'A', 'Ä'=>'A',
+    'Å'=>'A', 'Æ'=>'A', 'Ç'=>'C', 'È'=>'E', 'É'=>'E', 'Ê'=>'E', 'Ë'=>'E', 'Ì'=>'I', 'Í'=>'I', 'Î'=>'I',
+    'Ï'=>'I', 'Ñ'=>'N', 'Ń'=>'N', 'Ò'=>'O', 'Ó'=>'O', 'Ô'=>'O', 'Õ'=>'O', 'Ö'=>'O', 'Ø'=>'O', 'Ù'=>'U', 'Ú'=>'U',
+    'Û'=>'U', 'Ü'=>'U', 'Ý'=>'Y', 'Þ'=>'B', 'ß'=>'Ss','à'=>'a', 'á'=>'a', 'â'=>'a', 'ã'=>'a', 'ä'=>'a',
+    'å'=>'a', 'æ'=>'a', 'ç'=>'c', 'è'=>'e', 'é'=>'e', 'ê'=>'e', 'ë'=>'e', 'ì'=>'i', 'í'=>'i', 'î'=>'i',
+    'ï'=>'i', 'ð'=>'o', 'ñ'=>'n', 'ń'=>'n', 'ò'=>'o', 'ó'=>'o', 'ô'=>'o', 'õ'=>'o', 'ö'=>'o', 'ø'=>'o', 'ù'=>'u',
+    'ú'=>'u', 'û'=>'u', 'ü'=>'u', 'ý'=>'y', 'ý'=>'y', 'þ'=>'b', 'ÿ'=>'y', 'ƒ'=>'f',
+    'ă'=>'a', 'î'=>'i', 'â'=>'a', 'ș'=>'s', 'ț'=>'t', 'Ă'=>'A', 'Î'=>'I', 'Â'=>'A', 'Ș'=>'S', 'Ț'=>'T', ' '=> '-' , '&quot;'=> '' , '&amp;'=> '' ,);
+  $clean_title = preg_replace('/\W+/', '-', strtolower(strip_tags(strtr($link_title, $normalizeChars))));
+  //dump($clean_title);
+  return $clean_title;
+}
+
+/**
+ * Generates markup around link title().
+ */
+function as_menu_plug_generate_list_class($menu_level)
+{
+  $list_class = NULL;
+
+  // build link class one level down from current link
+  $menu_level = (int)$menu_level + 1;
+  $list_class = "nav-" . $menu_level;
+
+  return $list_class;
+}
+
+/**
+ * Generates markup around link title().
+ */
+function as_menu_plug_generate_link_class($menu_level)
+{
+  $link_class = NULL;
+  $child = NULL;
+
+  // build link class one level down from current link
+  $menu_level = 1;
+  $link_class = "nav-" . $menu_level . "__item";
+
+  return $link_class;
+}
+
+
+/**
+ * Strips menu URI or node id string and converts to menu_link_id or nid.
+ */
+function as_menu_plug_strip_id($string)
+{
+
+  if (!empty($string)) {
+    $string = strstr($string, '/');
+    $string = str_replace('/', '', $string);
+    return $string;
+  }
+}
+
+/**
+ * Gets parent node id from menu link id.
+ */
+function as_menu_plug_menulinkid_nid($menu_link_id)
+{
+
+  $database =  \Drupal::database();
+  $sql = "SELECT link__uri FROM menu_link_content_data WHERE id = :menulinkid";
+  $query = $database->query($sql, [':menulinkid' => $menu_link_id]);
+  $result = $query->fetchObject();
+  if ($result !== false) {
+    return $result->link__uri;
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function as_menu_plug_theme()
+{
+  return [
+    'card_menu_block' => [
+      'render element' => 'children',
+      'template' => 'card-menu-block'
+    ],
+    'menu_plug_block' => [
+      'render element' => 'children',
+      'template' => 'menu-plug-block'
+    ],
+    'page_menu_block' => [
+      'render element' => 'children',
+      'template' => 'page-menu-block'
+    ],
+
+  ];
+}
+
+
+
+/**
+ * Implements hook_help().
+ */
+function as_menu_plug_help($route_name, RouteMatchInterface $route_match)
+{
+  switch ($route_name) {
+      // Main module help for the as_menu_plug module.
+    case 'help.page.as_menu_plug':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Configurations, functions and templates to add in-page anchor links as links under that page&#039;s main navigation menu item.') . '</p>';
+      return $output;
+
+    default:
+  }
+}
