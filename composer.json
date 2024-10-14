@@ -1,5 +1,5 @@
 {
-    "name": "as-cornell/as_entity_list",
+    "name": "as-cornell/as_menu_plug",
     "description": "Configurations, functions and templates to add in-page anchor links as link fields under that page's menu item.",
     "type": "drupal-custom-module",
     "license": "GPL-3.0-or-later",
