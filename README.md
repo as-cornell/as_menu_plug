@@ -1,4 +1,4 @@
-[![Latest Stable Version](http://poser.pugx.org/as-cornell/as_menu_plug/v)](https://packagist.org/packages/as-cornell/as_menu_plug)
+[![Latest Stable Version](https://poser.pugx.org/as-cornell/as_menu_plug/v)](https://packagist.org/packages/as-cornell/as_menu_plug)
 # AS MENU PLUG (as_menu_plug)
 
 ## INTRODUCTION
