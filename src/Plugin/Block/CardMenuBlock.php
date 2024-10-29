@@ -29,7 +29,7 @@ class CardMenuBlock extends BlockBase {
     if (!empty($config['node_id'])) {
       $nid = $config['node_id'];
     }
-    $alias = \Drupal::service('path.alias_manager')->getAliasByPath('/node/' . $nid);
+    $alias = \Drupal::service('path_alias.manager')->getAliasByPath('/node/' . $nid);
 
     $build['card_menu_block']['#markup'] = '<ul>';
 
@@ -48,3 +48,4 @@ class CardMenuBlock extends BlockBase {
   }
 
 }
+
