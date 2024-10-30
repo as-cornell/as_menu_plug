@@ -3,3 +3,7 @@ services:
     class: Drupal\as_menu_plug\cleanLinkText
     tags:
       - { name: twig.extension }
+  as_menu_plug.buildOtpMenu:
+    class: Drupal\as_menu_plug\buildOtpMenu
+    tags:
+      - { name: twig.extension }
