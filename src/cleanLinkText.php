@@ -14,7 +14,7 @@ class cleanLinkText extends \Twig\Extension\AbstractExtension
    */
   public function getName()
   {
-    return 'as_dept_people_json.parse.json';
+    return 'as_menu_plug.cleanLinkText';
   }
 
 
