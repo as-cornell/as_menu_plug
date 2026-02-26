@@ -3,7 +3,7 @@
     "description": "Configurations, functions and templates to add in-page anchor links as link fields under that page's menu item.",
     "type": "drupal-custom-module",
     "license": "GPL-3.0-or-later",
-    "homepage": "https://it.cornell.edu/custom-web",
+    "homepage": "https://communnications.as.cornell.edu",
     "authors": [
         {
             "name": "Mark Wilson",
